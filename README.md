@@ -3,11 +3,12 @@
 ## Consistency
 
 **In this hands-on lab, you will:**
-* Add a third node to the Cassandra cluster
-*	Re-create the *killrvideo* keyspace using the `NetworkTopologyStrategy`
-*	Use *nodetool* to determine where partition replicas can be found
+* Determine the current consistency level used by *cqlsh*
+* Change the consistency level for reads and writes executed by *cqlsh*
+* Observe how the availability of data changes with different consistency levels 
 
-Cassandra provides scalability and fault tolerance. Consistency is the secret sauce that makes this work. 
+
+One of the challenges of distributed systems, like Apache Cassandra™, is how to balance keeping your data consistent across multiple replicas while maintaining high availability. Fortunately, Cassandra lets you tune this balancing to your needs by setting consistency levels for reads and writes. 
 
 ## Start the hands-on lab:
 

@@ -24,9 +24,9 @@
           <br/>
           <div class="scenario-objectives">In this hands-on lab, you learned how to:</div>
             <ul>
-              <li><span class="scenario-objective">Add a third node to the Cassandra cluster</span></li>
-              <li><span class="scenario-objective">Re-create the <i>killrvideo</i> keyspace using the <code>NetworkTopologyStrategy</code></span></li>              
-              <li><span class="scenario-objective">Use <i>nodetool</i> to determine where partition replicas can be found</span></li>
+              <li><span class="scenario-objective">Determine the current consistency level used by <i>cqlsh</i></span></li>
+              <li><span class="scenario-objective">Change the consistency level for reads and writes executed by <i>cqlsh</i></span></li>
+              <li><span class="scenario-objective">Observe how the availability of data changes with different consistency levels </span></li>
             </ul>
         </div>
       </div>

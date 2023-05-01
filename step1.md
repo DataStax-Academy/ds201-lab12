@@ -22,79 +22,53 @@
 
 <div class="step-title">Configure the nodes</div>
 
-The environment for this exercise consists of three cassandra nodes: *node1*, *node2* and *node3*
-
-✅ Open `/workspace/ds201-lab11/node1/conf/cassandra.yaml` in a *nano* or the text editor of your choice and view the `endpoint_snitch` setting:
+✅ Check that all three nodes are up and running:
 
 ```
-nano /workspace/ds201-lab11/node1/conf/cassandra.yaml
+./node1/bin/nodetool status
 ```
 
-You should see *GossipingPropertyFileSnitch*. The default snitch, *SimpleSnitch* is only appropriate for single datacenter deployments. 
-
----
-**Note:** *GossipingPropertyFileSnitch* should be your go-to snitch for production use.  The rack and datacenter for the local node are defined in *cassandra-rackdc.properties* and propagated to other nodes via Consistency.
-
----
-
-Verify that the `cassandra.yml` files for  *node2* and *node3* all use the same snitch.
-
-
-✅ Open `/workspace/ds201-lab11/node1/conf/cassandra-rackdc.properties` in a *nano* or the text editor of your choice and find the `dc` and `rack` settings:
-```
-nano /workspace/ds201-lab11/node1/conf/cassandra-rackdc.properties
-```
-✅ You should see these values:
-
-`dc=dc-seattle`<br>
-`rack=rack-red`
-
-
-This is the file that the *GossipingPropertyFileSnitch* uses to determine the rack and data center this particular node belongs to.
-
-Racks and datacenters are purely logical assignments to Cassandra. You will want to ensure that your logical racks and data centers align with your physical failure zones.
-
-Examine `cassandra-rackdc.properties` for *node2* and *node3*.
-
-Properties for *node2* should be the same as for *node1*, they are in the same datacenter and on the same rack.
-
-`dc=dc-seattle`<br>
-`rack=rack-red`
-
-Properties for *node3* should be different since it is in a different datacenter:
-
-`dc=dc-atlanta`<br>
-`rack=rack-green`
-
-✅ Check on the cluster status:
-
-<details class="katapod-details">
-  <summary>Solution</summary>
+✅ Start *cqlsh*:
 
 ```
-./node2/bin/nodetool status
+./node1/bin/cqlsh
 ```
 
-</details>
-<br>
-
-You should now see that the nodes are in different datacenters.
+✅ Switch to the *killrvideo* keyspace:
 
 ```
-### {"execute": false}
-Datacenter: dc-atlanta
-=====================
-Status=Up/Down
-|/ State=Normal/Leaving/Joining/Moving/Stopped
---  Address    Load       Tokens       Owns (effective)  Host ID                               Rack
-UN  127.0.0.3  646.5 KiB  128          66.9%             1e6f5265-2ecb-4740-907c-816f3df7d057  rack-green
-Datacenter: dc-seattle
-=====================
-Status=Up/Down
-|/ State=Normal/Leaving/Joining/Moving/Stopped
---  Address    Load       Tokens       Owns (effective)  Host ID                               Rack
-UN  127.0.0.1  819.3 KiB  128          68.1%             f295016e-f130-401c-98f0-35b62468bb3e  rack-red
-UN  127.0.0.2  152.9 KiB  128          65.0%             76f73ce7-5597-4297-8670-9d2b27130404  rack-red
+USE killrvideo;
+```
+
+✅ Use `CONSISTENCY` to check the current consistency level:
+
+```
+CONSISTENCY;
+```
+Verify that the consistency level is set to `ONE`: only one node must acknowledge a write on a write request, and only one node must return a result set to satisfy a read request.
+
+✅ Set your consistency level to `TWO` by executing the following command:
+
+```
+CONSISTENCY TWO;
+```
+
+✅ Retrieve the cassandra partition from the videos_by_tag table by executing the following command:
+
+```
+SELECT * FROM videos_by_tag WHERE tag = 'cassandra';
+```
+
+The query should succeed.
+
+✅ Quit *cqlsh*:
+```
+QUIT
+```
+
+✅ Use `nodetool getendpoints` to determine which nodes hold the replicas for the cassandra partition tag value in the *videos_by_tag* table:
+```
+./node1/bin/nodetool getendpoints killrvideo videos_by_tag 'cassandra'
 ```
 
 <!-- NAVIGATION -->

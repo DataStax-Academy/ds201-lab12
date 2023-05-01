@@ -13,18 +13,19 @@
   <div class="container px-4 py-2">
     <div class="row g-4 py-2 row-cols-1 row-cols-lg-1">
       <div class="feature col div-choice">
-        <div class="scenario-description">Consistency</div>
+        <div class="scenario-description">DS201 Exercise 12: Consistency</div>
           <ul>
             <li><span class="scenario-description-attribute">Difficulty</span>: Beginner</li>
             <li><span class="scenario-description-attribute">Time</span>: 10 minutes</li>
           </ul>
           <div class="scenario-objectives">In this hands-on lab, you will:</div>
             <ul>
-              <li><span class="scenario-objective">Configure your DataStax Enterprise nodes to use a different snitch</span></li>
-              <li><span class="scenario-objective">Set up your DataStax Enterprise nodes to reside in two different datacenters</span></li>
+              <li><span class="scenario-objective">Determine the current consistency level used by <i>cqlsh</i></span></li>
+              <li><span class="scenario-objective">Change the consistency level for reads and writes executed by <i>cqlsh</i></span></li>
+              <li><span class="scenario-objective">Observe how the availability of data changes with different consistency levels </span></li>
             </ul>
             <p>
-              To improve fault-tolerance, distributed systems must consider the topology of the cluster into account. Cassandra uses this topological information to replicate data across a geological diverse area, which increases data availability.
+              One of the challenges of distributed systems, like Apache Cassandra™, is how to balance keeping your data consistent across multiple replicas while maintaining high availability. Fortunately, Cassandra lets you tune this balancing to your needs by setting a consistency level for reads and writes.
             </p>
           </div>  
           <a href='command:katapod.loadPage?[{"step":"step1"}]' class="btn btn-primary btn-cassandra">
