@@ -20,7 +20,7 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Configure the nodes</div>
+<div class="step-title">Explore the consistency level</div>
 
 ✅ Check that all three nodes are up and running:
 
@@ -84,9 +84,12 @@ QUIT
 <details class="katapod-details">
   <summary>Solution</summary>
 
-The command will be:
-
+Make sure that you only shut down one node!
 <table class="katapod-table">
+  <tr>
+    <th>Node (IP)</th>
+    <th>Shutdown command</th>
+  </tr>
   <tr>
     <td>127.0.0.1</td>
     <td>
@@ -96,6 +99,7 @@ The command will be:
 ``` 
 </td>
 <tr>
+
   <tr>
     <td>127.0.0.2</td>
     <td>
@@ -105,12 +109,10 @@ The command will be:
 ``` 
 </td>
 <tr>
-   
     
 </table>
 
-
-
+Keep track of which node you bring down and also the node number that is still up.
 
 </details>
 <br>
