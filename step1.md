@@ -53,6 +53,8 @@ Verify that the consistency level is set to `ONE`: only one node must acknowledg
 CONSISTENCY TWO;
 ```
 
+In this cluster setup, consistency level `TWO` would work the same way as `ALL` because our current replication settings store one replica per data center, and we have two data centers.
+
 ✅ Retrieve the cassandra partition from the videos_by_tag table by executing the following command:
 
 ```
@@ -70,6 +72,49 @@ QUIT
 ```
 ./node1/bin/nodetool getendpoints killrvideo videos_by_tag 'cassandra'
 ```
+
+✅ Use `nodetool stopdaemon` to bring down the replica node for the cassandra partition in the *dc-seattle* datacenter:
+
+---
+**Note:** The *dc-seattle* datacenter has nodes listening on:<br>
+* 127.0.0.1
+* 127.0.0.2
+<br>
+---
+<details class="katapod-details">
+  <summary>Solution</summary>
+
+The command will be:
+
+<table class="katapod-table">
+  <tr>
+    <td>127.0.0.1</td>
+    <td>
+
+```
+./node1/bin/nodetool stopdaemon
+``` 
+</td>
+<tr>
+  <tr>
+    <td>127.0.0.2</td>
+    <td>
+
+```
+./node2/bin/nodetool stopdaemon
+``` 
+</td>
+<tr>
+   
+    
+</table>
+
+
+
+
+</details>
+<br>
+
 
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">
