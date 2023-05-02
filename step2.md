@@ -94,13 +94,14 @@ INSERT INTO videos_by_tag (tag, added_date, video_id, title)
 VALUES ('cassandra', '2020-03-11', uuid(), 'I Love Cassandra');
 ```
 
+</details>
+<br>
+
 ✅ Quit *cqlsh*:
 ```
 QUIT
 ```
 
-</details>
-<br>
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">
  <a href='command:katapod.loadPage?[{"step":"step1"}]'
