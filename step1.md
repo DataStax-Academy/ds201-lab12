@@ -112,7 +112,7 @@ Make sure that you only shut down one node!
     
 </table>
 
-Keep track of which node you  down and also the node number that is still up.
+Keep track of which node you shut down and also which nodes are still up.
 
 </details>
 <br>
