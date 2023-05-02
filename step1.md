@@ -12,7 +12,7 @@
  <a href='command:katapod.loadPage?[{"step":"intro"}]'
    class="btn btn-dark navigation-top-left">⬅️ Back
  </a>
-<span class="step-count"> Step 1 of 2</span>
+<span class="step-count"> Step 1 of 3</span>
  <a href='command:katapod.loadPage?[{"step":"step2"}]' 
     class="btn btn-dark navigation-top-right">Next ➡️
   </a>
@@ -112,7 +112,7 @@ Make sure that you only shut down one node!
     
 </table>
 
-Keep track of which node you bring down and also the node number that is still up.
+Keep track of which node you  down and also the node number that is still up.
 
 </details>
 <br>

@@ -9,11 +9,11 @@
 
 <!-- NAVIGATION -->
 <div id="navigation-top" class="navigation-top">
- <a href='command:katapod.loadPage?[{"step":"step2"}]'
+ <a href='command:katapod.loadPage?[{"step":"step1"}]'
    class="btn btn-dark navigation-top-left">⬅️ Back
  </a>
-<span class="step-count"> Step 2 of 2</span>
- <a href='command:katapod.loadPage?[{"step":"finish"}]' 
+<span class="step-count"> Step 2 of 3</span>
+ <a href='command:katapod.loadPage?[{"step":"step3"}]' 
     class="btn btn-dark navigation-top-right">Next ➡️
   </a>
 
@@ -21,71 +21,92 @@
 
 <!-- CONTENT -->
 
-<div class="step-title">Configure the nodes</div>
+<div class="step-title">Use different consistency levels</div>
 
-✅ Start *cqlsh*
+✅ Start *cqlsh* from *node3* since it is the only node running in *dc-atlanta*:
 ```
-./node1/bin/cqlsh
-```
-
-✅ Execute the following statements to create a keyspace with the *NetworkTopologyStrategy* that will store one replica per data center:
-
-```cql
-CREATE KEYSPACE killrvideo WITH Consistency = {
-  'class': 'NetworkTopologyStrategy', 
-  'dc-seattle': 1,'dc-atlanta': 1
-};
+./node3/bin/cqlsh
 ```
 
-✅ Switch to the *killrvideo* keyspace:
+✅ Switch to the *killrvideo* keyspace, set the consistency level to `TWO`, and run the query again to retrieve the *cassandra* partition:
 
 <details class="katapod-details">
   <summary>Solution</summary>
 
 ```cql
 USE killrvideo;
+
+CONSISTENCY TWO;
+
+SELECT * FROM killrvideo.videos_by_tag WHERE tag = 'cassandra';
 ```
 
 </details>
 <br>
 
-✅ Execute the following commands to re-create the *videos_by_tag* table and re-import the data:
+The query should error out with the message *NoHostAvailable*: because you cannot achieve a consistency level of 'TWO' with only one of the two replica nodes online.
+
+✅ Set the consistency level back to `ONE` and retry the query:
+
+<details class="katapod-details">
+  <summary>Solution</summary>
 
 ```cql
-CREATE TABLE videos_by_tag (
-    tag text,
-    video_id uuid,
-    added_date timestamp,
-    title text,
-    PRIMARY KEY ((tag), added_date, video_id))
-    WITH CLUSTERING ORDER BY (added_date DESC, video_id ASC);
+CONSISTENCY ONE;
 
-COPY videos_by_tag(tag, video_id, added_date, title)
-FROM './data-files/videos-by-tag.csv'
-WITH HEADER=TRUE;
+SELECT * FROM killrvideo.videos_by_tag WHERE tag = 'cassandra';
 ```
 
-✅ Exit *cqlsh*
+</details>
+<br>
+
+The query should succeed because we still have one replica node available.
+
+✅ Change the consistency level back to `TWO`:
+<details class="katapod-details">
+  <summary>Solution</summary>
+
+```cql
+CONSISTENCY TWO;
+```
+
+</details>
+<br>
+
+✅ Run the following statement to insert a new row into the *cassandra* partition: 
+
+```cql
+INSERT INTO videos_by_tag (tag, added_date, video_id, title)
+VALUES ('cassandra', '2020-03-11', uuid(), 'I Love Cassandra');
+
+```
+The write should fail with the error *NoHostAvailable*: because we still cannot achieve a consistency level of `TWO`.
+
+
+✅ Change the consistency level back to `ONE` and try the *INSERT* again:
+<details class="katapod-details">
+  <summary>Solution</summary>
+
+```cql
+CONSISTENCY ONE;
+
+INSERT INTO videos_by_tag (tag, added_date, video_id, title)
+VALUES ('cassandra', '2020-03-11', uuid(), 'I Love Cassandra');
+```
+
+✅ Quit *cqlsh*:
 ```
 QUIT
 ```
 
-✅ Execute the following commands to determine which nodes the partition replicas reside on:
-
-```cql
-./node1/bin/nodetool getendpoints killrvideo videos_by_tag 'cassandra'
-
-./node1/bin/nodetool getendpoints killrvideo videos_by_tag 'datastax'
-```
-
-You’ll be able to see the replicas nodes, represented by their IP addresses.
-
+</details>
+<br>
 <!-- NAVIGATION -->
 <div id="navigation-bottom" class="navigation-bottom">
- <a href='command:katapod.loadPage?[{"step":"step2"}]'
+ <a href='command:katapod.loadPage?[{"step":"step1"}]'
    class="btn btn-dark navigation-bottom-left">⬅️ Back
  </a>
-  <a href='command:katapod.loadPage?[{"step":"finish"}]' 
+  <a href='command:katapod.loadPage?[{"step":"step3"}]' 
     class="btn btn-dark navigation-top-right">Next ➡️
   </a>
 
