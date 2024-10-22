@@ -91,7 +91,7 @@ SELECT * FROM killrvideo.videos_by_tag WHERE tag = 'cassandra';
 The new row should be present. 
 
 ---
-**Note:** The row was inserted at consistency level `ONE` whn only one replica node was running. This read was at consistency level `TWO` and it succeeded. Somehow when the downed node returned to the cluster it *synced up* and got the new row! Cassandra uses *Hinted Handoff* to inform nodes about changes that occurred when they were not available. More on this in Exercise 13.)
+**Note:** The row was inserted at consistency level `ONE` whn only one replica node was running. This read was at consistency level `TWO` and it succeeded. Somehow when the downed node returned to the cluster it *synced up* and got the new row! Cassandra uses *Hinted Handoff* to inform nodes about changes that occurred when they were not available. More on this in Exercise 13.
 
 ---
 
